@@ -3,283 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salt Executor | Ultimate Roblox Execution</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <title>Salt Executor | Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-color: #0a0a0f;
-            --surface-color: rgba(255, 255, 255, 0.05);
-            --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            --border-color: rgba(255, 255, 255, 0.1);
+            --bg: #0a0a0f;
+            --surface: rgba(255,255,255,0.05);
+            --surface-hover: rgba(255,255,255,0.08);
+            --text: #ffffff;
+            --text-sec: #a1a1aa;
+            --border: rgba(255,255,255,0.1);
             --accent: #a855f7;
-            --accent-glow: rgba(168, 85, 247, 0.3);
-            --card-bg: rgba(255, 255, 255, 0.03);
+            --accent-glow: rgba(168,85,247,0.3);
         }
-
         body.light {
-            --bg-color: #f4f4f9;
-            --surface-color: rgba(0, 0, 0, 0.05);
-            --text-primary: #111111;
-            --text-secondary: #3f3f46;
-            --border-color: rgba(0, 0, 0, 0.1);
+            --bg: #f4f4f9;
+            --surface: rgba(0,0,0,0.03);
+            --surface-hover: rgba(0,0,0,0.05);
+            --text: #111111;
+            --text-sec: #3f3f46;
+            --border: rgba(0,0,0,0.1);
             --accent: #7c3aed;
-            --accent-glow: rgba(124, 58, 237, 0.2);
-            --card-bg: rgba(0, 0, 0, 0.02);
+            --accent-glow: rgba(124,58,237,0.2);
         }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-color);
-            color: var(--text-primary);
-            transition: background 0.3s, color 0.3s;
-            overflow-x: hidden;
-        }
-
-        /* Canvas Background (Dark mode only) */
-        body:not(.light) #bg-canvas {
-            display: block;
-        }
-        body.light #bg-canvas {
-            display: none;
-        }
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-        }
-
-        /* Glass Navbar */
-        .navbar {
-            position: sticky;
-            top: 0;
-            backdrop-filter: blur(12px);
-            background: var(--surface-color);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 100;
-            padding: 16px 0;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo-img {
-            height: 40px;
-            width: auto;
-        }
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--text-primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .version {
-            background: var(--surface-color);
-            padding: 4px 10px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-        .nav-links {
-            display: flex;
-            gap: 32px;
-        }
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-        .theme-toggle {
-            background: var(--surface-color);
-            border: 1px solid var(--border-color);
-            border-radius: 40px;
-            padding: 8px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-primary);
-        }
-        .discord-btn {
-            background: #5865f2;
-            padding: 8px 20px;
-            border-radius: 40px;
-            border: none;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-        }
-        .discord-btn:hover {
-            background: #4752c4;
-            transform: scale(1.02);
-        }
-
-        /* Hero */
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 60px 20px;
-        }
-        .status-badge {
-            background: rgba(234, 179, 8, 0.15);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(234, 179, 8, 0.5);
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #facc15;
-            margin-bottom: 24px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .glow-text {
-            font-size: 5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFFFFF, var(--accent), #ec4899);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: gradientShift 6s ease infinite;
-        }
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .stats {
-            display: flex;
-            gap: 40px;
-            margin: 30px 0;
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--accent);
-        }
-        .hero-desc {
-            max-width: 600px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-        }
-        .btn-group {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .btn-primary, .btn-outline {
-            padding: 12px 28px;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: none;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), #d946ef);
-            color: white;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px var(--accent-glow);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--text-primary);
-        }
-        .btn-outline:hover {
-            background: var(--surface-color);
-        }
-
-        /* Feature Cards */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            padding: 60px 20px;
-        }
-        .feature-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border-color);
-            border-radius: 32px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; overflow-x: hidden; }
+        
+        /* Animated Canvas Background (dark mode only) */
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        body.light #bg-canvas { display: none; }
+        
+        /* Glassmorphism Navbar */
+        .navbar { position: sticky; top: 0; backdrop-filter: blur(12px); background: var(--surface); border-bottom: 1px solid var(--border); z-index: 100; padding: 16px 0; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 40px; width: auto; object-fit: contain; }
+        .logo-text { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .version { background: var(--surface); padding: 4px 10px; border-radius: 40px; font-size: 0.7rem; font-weight: 500; border: 1px solid var(--border); }
+        .nav-links { display: flex; gap: 32px; flex-wrap: wrap; }
+        .nav-links a { color: var(--text-sec); text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .theme-toggle, .discord-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 40px; padding: 8px 16px; cursor: pointer; color: var(--text); transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .discord-btn { background: #5865f2; border-color: #5865f2; color: white; }
+        .discord-btn:hover { background: #4752c4; transform: scale(1.02); }
+        
+        /* Hero Section */
+        .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 60px 20px; }
+        .status-badge { background: rgba(234,179,8,0.15); backdrop-filter: blur(4px); border: 1px solid rgba(234,179,8,0.5); padding: 8px 18px; border-radius: 40px; font-size: 0.8rem; font-weight: 600; color: #facc15; margin-bottom: 24px; display: inline-flex; align-items: center; gap: 8px; }
+        .glow-text { font-size: 5rem; font-weight: 800; background: linear-gradient(135deg, #FFF, var(--accent), #ec4899); background-size: 300% 300%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: gradientShift 6s ease infinite; }
+        @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .stats { display: flex; gap: 40px; margin: 30px 0; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
+        .hero-desc { max-width: 600px; color: var(--text-sec); margin-bottom: 40px; line-height: 1.6; }
+        .btn-group { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+        .btn-primary, .btn-outline { padding: 12px 28px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; border: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent), #d946ef); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px var(--accent-glow); }
+        .btn-outline { background: transparent; border: 1px solid var(--accent); color: var(--text); }
+        .btn-outline:hover { background: var(--surface); }
+        
+        /* Features */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 60px 20px; }
+        .feature-card { background: var(--surface); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: 32px; padding: 32px 24px; text-align: center; transition: all 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--accent); background: var(--surface-hover); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent); }
+        
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); color: var(--text-sec); }
+        
         /* Animations */
-        .fade-up, .fade-left, .fade-right {
-            opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
+        .fade-up, .fade-left, .fade-right { opacity: 0; transition: opacity 0.8s cubic-bezier(0.2,0.9,0.4,1.1), transform 0.8s cubic-bezier(0.2,0.9,0.4,1.1); }
         .fade-up { transform: translateY(30px); }
         .fade-left { transform: translateX(-30px); }
         .fade-right { transform: translateX(30px); }
-        .visible {
-            opacity: 1;
-            transform: translate(0, 0);
-        }
-
+        .visible { opacity: 1; transform: translate(0,0); }
+        
         @media (max-width: 768px) {
             .glow-text { font-size: 3rem; }
             .nav-links { display: none; }
@@ -290,16 +89,15 @@
 </head>
 <body>
     <canvas id="bg-canvas"></canvas>
-
     <nav class="navbar">
         <div class="container nav-container">
             <div class="logo-area">
-                <img src="image.png" alt="Salt Logo" class="logo-img" onerror="this.style.display='none'">
+                <img src="image.png" class="logo-img" alt="Salt Logo" onerror="this.style.display='none'">
                 <div class="logo-text">SALT</div>
                 <div class="version">v0.0.1</div>
             </div>
             <div class="nav-links">
-                <a href="/">Home</a>
+                <a href="/" class="active">Home</a>
                 <a href="/about">About</a>
                 <a href="/faq">FAQ</a>
                 <a href="/help">Help</a>
@@ -307,12 +105,11 @@
                 <a href="/dashboard">Dashboard</a>
             </div>
             <div style="display: flex; gap: 12px;">
-                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i> <span>Dark</span></button>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
                 <button class="discord-btn" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')"><i class="fab fa-discord"></i> Join Salt</button>
             </div>
         </div>
     </nav>
-
     <main>
         <div class="container hero fade-up">
             <div class="status-badge"><i class="fas fa-circle" style="font-size: 0.6rem;"></i> STATUS: ALMOST RELEASED</div>
@@ -328,28 +125,26 @@
             </div>
             <div style="margin-top: 40px;"><i class="fas fa-clock"></i> COMING SOON — MAY 28/29 2026</div>
         </div>
-
         <div class="container features-grid">
             <div class="feature-card fade-up"><div class="feature-icon"><i class="fas fa-bolt"></i></div><h3>Lightning Fast</h3><p>Ultra-low latency execution with optimized performance.</p></div>
             <div class="feature-card fade-up"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>Advanced Bypass</h3><p>Constantly updated to stay ahead of detection methods.</p></div>
             <div class="feature-card fade-up"><div class="feature-icon"><i class="fas fa-code"></i></div><h3>Full UNC Support</h3><p>Complete library coverage with 100% UNC and 98% sUNC.</p></div>
         </div>
     </main>
-
     <footer><p>&copy; 2026 Salt Executor. All rights reserved.</p></footer>
-
+    
     <div id="downloadModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); justify-content:center; align-items:center; z-index:1000;">
-        <div style="background: var(--bg-color); padding:32px; border-radius:32px; text-align:center; max-width:400px; border:1px solid var(--border-color);">
+        <div style="background: var(--bg); padding:32px; border-radius:32px; text-align:center; max-width:400px; border:1px solid var(--border);">
             <i class="fas fa-clock" style="font-size:3rem; color:#facc15;"></i>
             <h2 style="margin:16px 0;">COMING SOON</h2>
             <p>Salt Executor hasn't been released yet! Join our Discord to stay updated.</p>
             <button class="btn-primary" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')" style="margin-top:20px;">Join Discord</button>
-            <button onclick="document.getElementById('downloadModal').style.display='none'" style="margin-top:16px; background:none; border:none; color:var(--text-primary); cursor:pointer;">Close</button>
+            <button onclick="document.getElementById('downloadModal').style.display='none'" style="margin-top:16px; background:none; border:none; color:var(--text); cursor:pointer;">Close</button>
         </div>
     </div>
 
     <script>
-        // Animated background (particles)
+        // Animated background particles
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let width, height, particles = [];
@@ -368,16 +163,16 @@
         document.getElementById('downloadBtn').addEventListener('click', () => document.getElementById('downloadModal').style.display = 'flex');
         window.onclick = e => { if(e.target === document.getElementById('downloadModal')) document.getElementById('downloadModal').style.display = 'none'; };
 
-        // Light/Dark mode toggle
+        // Theme toggle
         const themeToggle = document.getElementById('themeToggle');
         const currentTheme = localStorage.getItem('theme') || 'dark';
         if(currentTheme === 'light') document.body.classList.add('light');
-        themeToggle.innerHTML = currentTheme === 'light' ? '<i class="fas fa-sun"></i> <span>Light</span>' : '<i class="fas fa-moon"></i> <span>Dark</span>';
+        themeToggle.innerHTML = currentTheme === 'light' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         themeToggle.onclick = () => {
             document.body.classList.toggle('light');
             const isLight = document.body.classList.contains('light');
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i> <span>Light</span>' : '<i class="fas fa-moon"></i> <span>Dark</span>';
+            themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
         };
     </script>
 </body>
