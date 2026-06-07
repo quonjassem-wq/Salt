@@ -1,0 +1,12 @@
+{
+  "functions": {
+    "api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "rewrites": [
+    { "source": "/gen/hide/test", "destination": "/gen/hide/test/index.html" },
+    { "source": "/assets/links.json", "destination": "/assets/links.json" },
+    { "source": "/assets/version.txt", "destination": "/assets/version.txt" }
+  ]
+}
