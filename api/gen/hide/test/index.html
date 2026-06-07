@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        button {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.3);
+        }
+        
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            word-break: break-all;
+        }
+        
+        .result.success {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            color: #065f46;
+        }
+        
+        .result.error {
+            background: #fef2f2;
+            border: 1px solid #ef4444;
+            color: #991b1b;
+        }
+        
+        .generated-key {
+            font-family: monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+        }
+        
+        .password-section {
+            background: #f9fafb;
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        hr {
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .key-list {
+            margin-top: 1rem;
+        }
+        
+        .key-item {
+            background: #f9fafb;
+            padding: 0.75rem;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .key-code {
+            font-family: monospace;
+            font-weight: 600;
+        }
+        
+        .key-expiry {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .copy-btn {
+            background: #4b5563;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            width: auto;
+        }
+        
+        .generate-another {
+            background: #10b981;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Salt Admin Panel</h1>
+            <p class="subtitle">Secure key generation system</p>
+            
+            <div class="password-section">
+                <div class="input-group">
+                    <label>Admin Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter admin password">
+                </div>
+                <button id="unlockBtn">Unlock Panel</button>
+            </div>
+            
+            <div id="panelContent" style="display: none;">
+                <hr>
+                <h3>Generate New Key</h3>
+                <div class="input-group">
+                    <label>Key Duration</label>
+                    <select id="keyDuration">
+                        <option value="1">1 Day</option>
+                        <option value="7">7 Days</option>
+                        <option value="30">30 Days</option>
+                        <option value="365">Permanent (365 Days)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>HWID Limit</label>
+                    <input type="number" id="hwidLimit" value="1" min="1" max="5">
+                    <small style="color: #6b7280;">Number of HWIDs this key can be used on</small>
+                </div>
+                <button id="generateBtn">Generate Key</button>
+                
+                <div id="generationResult" class="result" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const ADMIN_PASSWORD = 'SALTY-WAS-HEREWITHSUGAR_ezez.meow.ez.kidd_keno';
+        
+        document.getElementById('unlockBtn').addEventListener('click', () => {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('panelContent').style.display = 'block';
+                document.querySelector('.password-section').style.display = 'none';
+            } else {
+                alert('Invalid password');
+            }
+        });
+        
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const duration = parseInt(document.getElementById('keyDuration').value);
+            const hwidLimit = parseInt(document.getElementById('hwidLimit').value);
+            const resultDiv = document.getElementById('generationResult');
+            
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '<div class="result-loading">Generating key...</div>';
+            
+            try {
+                const response = await fetch('/api/generate-key', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        password: ADMIN_PASSWORD,
+                        duration: duration,
+                        hwid_limit: hwidLimit
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        ✅ Key generated successfully!<br>
+                        <strong>Key:</strong> <span class="generated-key">${data.key}</span><br>
+                        <strong>Expires:</strong> ${new Date(data.expiry).toLocaleString()}<br>
+                        <strong>Duration:</strong> ${data.duration} days
+                        <button class="copy-btn" onclick="copyToClipboard('${data.key}')">Copy Key</button>
+                    `;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Error: ${data.error || 'Failed to generate key'}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+            }
+        });
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert('Key copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
