@@ -3,126 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FAQ | Salt Executor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>FAQ - Salt Executor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0f; color: white; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .navbar { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); align-items: center; }
+        .logo { display: flex; gap: 10px; align-items: center; }
+        .btn-discord { background: #5865f2; padding: 8px 20px; border-radius: 40px; border: none; color: white; cursor: pointer; }
+        .page-header { text-align: center; margin: 60px 0 40px; }
+        .page-header h1 { font-size: 3rem; background: linear-gradient(135deg, #fff, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .faq-list { max-width: 800px; margin: 0 auto 80px; }
+        .faq-item { background: rgba(255,255,255,0.05); border-radius: 24px; margin-bottom: 16px; overflow: hidden; }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 20px 28px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+        .faq-question:hover { background: rgba(255,255,255,0.08); }
+        .faq-answer { padding: 0 28px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: #a1a1aa; line-height: 1.6; }
+        .faq-item.active .faq-answer { padding: 0 28px 24px 28px; max-height: 300px; }
+        .faq-answer ul { margin-left: 20px; margin-top: 8px; }
+        footer { text-align: center; padding: 40px; border-top: 1px solid rgba(255,255,255,0.05); color: #71717a; }
+        @media (max-width: 768px) { .page-header h1 { font-size: 2rem; } }
+    </style>
 </head>
 <body>
-    <div class="cursor-glow"></div>
-    <div class="noise-overlay"></div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <div class="logo-placeholder">
-                    <img src="image.png" alt="Salt Logo" id="site-logo" style="display: none;">
-                    <div class="logo-text" id="logo-text">SALT</div>
-                </div>
-                <span class="version-badge">v0.0.1</span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html">HOME</a>
-                <a href="about.html">ABOUT</a>
-                <a href="faq.html" class="active">FAQ</a>
-                <a href="help.html">HELP</a>
-                <a href="credits.html">CREDITS</a>
-            </div>
-            <div class="nav-actions">
-                <button class="discord-btn" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')">
-                    <i class="fab fa-discord"></i> JOIN SALT
-                </button>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"><img src="image.png" alt="logo" style="height:40px;" onerror="this.style.display='none'"><span style="font-weight:800;">SALT</span></div>
+            <button class="btn-discord" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')"><i class="fab fa-discord"></i> Join Salt</button>
         </div>
-    </nav>
-
-    <main>
-        <section class="page-header">
-            <h1 class="page-title">FREQUENTLY ASKED QUESTIONS</h1>
-            <div class="page-divider"></div>
-        </section>
-
-        <section class="faq-content">
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Is Salt Paid?</h3>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Salt is gonna be forever free with ads</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Is Salt Keyless?</h3>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>No, Salt has a keysystem</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>When will Salt Release?</h3>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Salt will release on May 28/29, 2026</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Salt Paid Keys Prices?</h3>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <ul>
-                        <li><strong>1 day</strong> = Ads</li>
-                        <li><strong>1 week</strong> = $2.99</li>
-                        <li><strong>30 Day</strong> = $9.99</li>
-                        <li><strong>Perm Key</strong> = $14.99</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Does Salt support Multi Instance?</h3>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Currently, it is working well since last test.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    <h3>Is Salt undetected?</h3>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="faq-answer">
-                    <p>Salt Team are trying their best to bypass client modification bans, but just in case use an alt there is a risk in ban waves.</p>
-                </div>
-            </div>
-
-            <div class="faq-note">
-                <i class="fas fa-hashtag"></i>
-                <p>More information available in our Discord server!</p>
-                <button class="discord-btn-small" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')">Join Discord</button>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 Salt Executor. All rights reserved.</p>
-    </footer>
-
-    <script src="script.js"></script>
+        <div class="page-header"><h1>FREQUENTLY ASKED QUESTIONS</h1><div style="width:60px; height:3px; background:#a855f7; margin:16px auto;"></div></div>
+        <div class="faq-list">
+            <div class="faq-item"><div class="faq-question">Is Salt Paid? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Salt is gonna be forever free with ads</div></div>
+            <div class="faq-item"><div class="faq-question">Is Salt Keyless? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">No, Salt has a keysystem</div></div>
+            <div class="faq-item"><div class="faq-question">When will Salt Release? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Salt will release on May 28/29, 2026</div></div>
+            <div class="faq-item"><div class="faq-question">Salt Paid Keys Prices? <i class="fas fa-chevron-down"></i></div><div class="faq-answer"><ul><li><strong>1 day</strong> = Ads</li><li><strong>1 week</strong> = $2.99</li><li><strong>30 Day</strong> = $9.99</li><li><strong>Perm Key</strong> = $14.99</li></ul></div></div>
+            <div class="faq-item"><div class="faq-question">Does Salt support Multi Instance? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Currently, it is working well since last test.</div></div>
+            <div class="faq-item"><div class="faq-question">Is Salt undetected? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Salt Team are trying their best to bypass client modification bans, but just in case use an alt there is a risk in ban waves.</div></div>
+            <div class="faq-item"><div class="faq-question">More in discord! <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Join our Discord for more updates and support.</div></div>
+        </div>
+        <footer>&copy; 2026 Salt Executor. All rights reserved.</footer>
+    </div>
+    <script>
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const parent = q.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
