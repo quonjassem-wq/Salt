@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Dashboard | Salt Executor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="cursor-glow"></div>
+    <div class="noise-overlay"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-placeholder">
+                    <img src="image.png" alt="Salt Logo" id="site-logo" style="display: none;">
+                    <div class="logo-text" id="logo-text">SALT</div>
+                </div>
+                <span class="version-badge">v0.0.1</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">HOME</a>
+                <a href="about.html">ABOUT</a>
+                <a href="faq.html">FAQ</a>
+                <a href="help.html">HELP</a>
+                <a href="credits.html">CREDITS</a>
+            </div>
+            <div class="nav-actions">
+                <button class="discord-btn" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')">
+                    <i class="fab fa-discord"></i> JOIN SALT
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-header">
+            <h1 class="page-title">KEY DASHBOARD</h1>
+            <div class="page-divider"></div>
+        </section>
+
+        <section class="dashboard-content">
+            <div class="key-input-card">
+                <h2>Check Your Key Status</h2>
+                <p>Enter your Salt key below to verify if it's active or expired.</p>
+                <div class="input-group">
+                    <input type="text" id="keyInput" placeholder="Enter your key here...">
+                    <button id="checkKeyBtn">Check Key</button>
+                </div>
+                <div id="keyStatus" class="key-status"></div>
+            </div>
+
+            <div class="info-card">
+                <h3>How to Get a Key?</h3>
+                <p>1. Join our Discord server</p>
+                <p>2. Complete the required steps in the #keys channel</p>
+                <p>3. Receive your unique key</p>
+                <p>4. Enter it in the Salt application to unlock features</p>
+                <button class="discord-btn-small" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')">Join Discord</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Salt Executor. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('checkKeyBtn').addEventListener('click', async () => {
+            const key = document.getElementById('keyInput').value.trim();
+            const statusDiv = document.getElementById('keyStatus');
+            
+            if (!key) {
+                statusDiv.innerHTML = '<div class="status-error">Please enter a key.</div>';
+                return;
+            }
+            
+            statusDiv.innerHTML = '<div class="status-loading">Checking key...</div>';
+            
+            try {
+                const response = await fetch(`/api/check-key?key=${encodeURIComponent(key)}`);
+                const data = await response.json();
+                
+                if (data.valid) {
+                    const expiryDate = new Date(data.expiry);
+                    statusDiv.innerHTML = `
+                        <div class="status-valid">
+                            <i class="fas fa-check-circle"></i>
+                            Key is VALID!<br>
+                            Expires: ${expiryDate.toLocaleString()}
+                        </div>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="status-invalid">
+                            <i class="fas fa-times-circle"></i>
+                            ${data.message || 'Key is INVALID or has expired.'}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status-error">Error checking key. Please try again.</div>';
+            }
+        });
+    </script>
+</body>
+</html>
