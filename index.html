@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salt | The Most Advanced Roblox Executor</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (Free Icons) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Salt Executor | Ultimate Roblox Execution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,48 +13,72 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-color: #0a0a0f;
+            --surface-color: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body.light {
+            --bg-color: #f4f4f9;
+            --surface-color: rgba(0, 0, 0, 0.05);
+            --text-primary: #111111;
+            --text-secondary: #3f3f46;
+            --border-color: rgba(0, 0, 0, 0.1);
+            --accent: #7c3aed;
+            --accent-glow: rgba(124, 58, 237, 0.2);
+            --card-bg: rgba(0, 0, 0, 0.02);
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0f;
-            color: #ffffff;
+            background: var(--bg-color);
+            color: var(--text-primary);
+            transition: background 0.3s, color 0.3s;
             overflow-x: hidden;
         }
 
-        /* Canvas Background */
+        /* Canvas Background (Dark mode only) */
+        body:not(.light) #bg-canvas {
+            display: block;
+        }
+        body.light #bg-canvas {
+            display: none;
+        }
         #bg-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
-            display: block;
+            z-index: -2;
         }
 
-        /* Global Styles */
+        /* Glass Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(12px);
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 16px 0;
+        }
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 24px;
         }
-
-        /* Glassmorphism Navbar */
-        .navbar {
-            position: sticky;
-            top: 0;
-            backdrop-filter: blur(12px);
-            background: rgba(10, 10, 15, 0.7);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 50;
-            padding: 16px 0;
-        }
-
         .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .logo-area {
             display: flex;
             align-items: center;
@@ -69,33 +91,42 @@
         .logo-text {
             font-size: 1.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #fff, #a855f7);
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
         .version {
-            background: rgba(255,255,255,0.1);
+            background: var(--surface-color);
             padding: 4px 10px;
-            border-radius: 20px;
+            border-radius: 40px;
             font-size: 0.7rem;
             font-weight: 500;
         }
-
         .nav-links {
             display: flex;
             gap: 32px;
         }
         .nav-links a {
-            color: #ccc;
+            color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
             transition: 0.3s;
         }
         .nav-links a:hover {
-            color: white;
+            color: var(--accent);
         }
-
+        .theme-toggle {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            padding: 8px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+        }
         .discord-btn {
             background: #5865f2;
             padding: 8px 20px;
@@ -114,9 +145,9 @@
             transform: scale(1.02);
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
-            min-height: 90vh;
+            min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -138,13 +169,10 @@
             align-items: center;
             gap: 8px;
         }
-        .status-badge i {
-            font-size: 0.7rem;
-        }
         .glow-text {
             font-size: 5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #FFFFFF, #a855f7, #ec4899);
+            background: linear-gradient(135deg, #FFFFFF, var(--accent), #ec4899);
             background-size: 300% 300%;
             -webkit-background-clip: text;
             background-clip: text;
@@ -161,117 +189,106 @@
             gap: 40px;
             margin: 30px 0;
         }
-        .stat-item {
-            text-align: center;
-        }
         .stat-number {
             font-size: 2.5rem;
             font-weight: 800;
-            color: #a855f7;
+            color: var(--accent);
         }
         .hero-desc {
             max-width: 600px;
-            color: #a1a1aa;
+            color: var(--text-secondary);
             margin-bottom: 40px;
-            line-height: 1.5;
         }
-        .button-group {
+        .btn-group {
             display: flex;
             gap: 16px;
             flex-wrap: wrap;
             justify-content: center;
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #a855f7, #d946ef);
+        .btn-primary, .btn-outline {
             padding: 12px 28px;
-            border-radius: 40px;
+            border-radius: 60px;
             font-weight: 600;
-            border: none;
-            color: white;
             cursor: pointer;
             transition: 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #d946ef);
+            color: white;
         }
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(168, 85, 247, 0.4);
+            box-shadow: 0 10px 20px -5px var(--accent-glow);
         }
         .btn-outline {
             background: transparent;
-            border: 1px solid #a855f7;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            border: 1px solid var(--accent);
+            color: var(--text-primary);
         }
         .btn-outline:hover {
-            background: rgba(168, 85, 247, 0.1);
-            border-color: #d946ef;
+            background: var(--surface-color);
         }
 
-        /* Features Grid */
+        /* Feature Cards */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            padding: 80px 20px;
+            padding: 60px 20px;
         }
         .feature-card {
-            background: rgba(255, 255, 255, 0.03);
+            background: var(--card-bg);
             backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-color);
             border-radius: 32px;
             padding: 32px 24px;
             text-align: center;
             transition: all 0.3s;
         }
         .feature-card:hover {
-            background: rgba(255, 255, 255, 0.07);
             transform: translateY(-5px);
-            border-color: rgba(168, 85, 247, 0.5);
+            border-color: var(--accent);
         }
         .feature-icon {
             font-size: 2.5rem;
             margin-bottom: 20px;
+            color: var(--accent);
         }
 
         /* Footer */
         footer {
             text-align: center;
             padding: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            color: #71717a;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
         }
 
-        /* Responsive */
+        /* Animations */
+        .fade-up, .fade-left, .fade-right {
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .fade-up { transform: translateY(30px); }
+        .fade-left { transform: translateX(-30px); }
+        .fade-right { transform: translateX(30px); }
+        .visible {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
         @media (max-width: 768px) {
             .glow-text { font-size: 3rem; }
             .nav-links { display: none; }
             .stats { gap: 20px; }
             .stat-number { font-size: 1.8rem; }
         }
-
-        /* Animation Classes */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
-
     <canvas id="bg-canvas"></canvas>
 
     <nav class="navbar">
@@ -282,30 +299,30 @@
                 <div class="version">v0.0.1</div>
             </div>
             <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="about.html">About</a>
-                <a href="faq.html">FAQ</a>
-                <a href="help.html">Help</a>
-                <a href="credits.html">Credits</a>
+                <a href="/">Home</a>
+                <a href="/about">About</a>
+                <a href="/faq">FAQ</a>
+                <a href="/help">Help</a>
+                <a href="/credits">Credits</a>
+                <a href="/dashboard">Dashboard</a>
             </div>
-            <button class="discord-btn" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')">
-                <i class="fab fa-discord"></i> Join Salt
-            </button>
+            <div style="display: flex; gap: 12px;">
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i> <span>Dark</span></button>
+                <button class="discord-btn" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')"><i class="fab fa-discord"></i> Join Salt</button>
+            </div>
         </div>
     </nav>
 
     <main>
         <div class="container hero fade-up">
-            <div class="status-badge">
-                <i class="fas fa-circle" style="font-size: 0.6rem;"></i> STATUS: ALMOST RELEASED
-            </div>
+            <div class="status-badge"><i class="fas fa-circle" style="font-size: 0.6rem;"></i> STATUS: ALMOST RELEASED</div>
             <h1 class="glow-text">SALT EXECUTOR</h1>
             <div class="stats">
-                <div class="stat-item"><div class="stat-number">100%</div><div>UNC</div></div>
-                <div class="stat-item"><div class="stat-number">98%</div><div>sUNC</div></div>
+                <div><div class="stat-number">100%</div><div>UNC</div></div>
+                <div><div class="stat-number">98%</div><div>sUNC</div></div>
             </div>
             <p class="hero-desc">Experience unparalleled execution capabilities with Salt.<br>The most advanced Roblox executor, coming soon.</p>
-            <div class="button-group">
+            <div class="btn-group">
                 <button class="btn-primary" id="downloadBtn"><i class="fas fa-download"></i> Download Salt</button>
                 <button class="btn-outline" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')"><i class="fab fa-discord"></i> Join Salt</button>
             </div>
@@ -319,111 +336,49 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2026 Salt Executor. All rights reserved.</p>
-    </footer>
+    <footer><p>&copy; 2026 Salt Executor. All rights reserved.</p></footer>
 
     <div id="downloadModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); justify-content:center; align-items:center; z-index:1000;">
-        <div style="background:#1a1a2e; padding:32px; border-radius:32px; text-align:center; max-width:400px;">
+        <div style="background: var(--bg-color); padding:32px; border-radius:32px; text-align:center; max-width:400px; border:1px solid var(--border-color);">
             <i class="fas fa-clock" style="font-size:3rem; color:#facc15;"></i>
             <h2 style="margin:16px 0;">COMING SOON</h2>
-            <p style="color:#a1a1aa;">Salt Executor hasn't been released yet! Join our Discord to stay updated.</p>
+            <p>Salt Executor hasn't been released yet! Join our Discord to stay updated.</p>
             <button class="btn-primary" onclick="window.open('https://discord.gg/yZyHEugsPF', '_blank')" style="margin-top:20px;">Join Discord</button>
-            <button onclick="document.getElementById('downloadModal').style.display='none'" style="margin-top:16px; background:none; border:none; color:#fff; cursor:pointer;">Close</button>
+            <button onclick="document.getElementById('downloadModal').style.display='none'" style="margin-top:16px; background:none; border:none; color:var(--text-primary); cursor:pointer;">Close</button>
         </div>
     </div>
 
     <script>
-        // --- 3D Animated Background (Particle Network) ---
+        // Animated background (particles)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
+        let width, height, particles = [];
         const PARTICLE_COUNT = 100;
-        const CONNECT_DISTANCE = 150;
+        function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initParticles(); }
+        function initParticles() { particles = []; for(let i=0;i<PARTICLE_COUNT;i++) particles.push({ x:Math.random()*width, y:Math.random()*height, radius:Math.random()*2+1, speedX:(Math.random()-0.5)*0.5, speedY:(Math.random()-0.5)*0.5 }); }
+        function draw() { if(!ctx) return; ctx.clearRect(0,0,width,height); ctx.fillStyle = '#0a0a0f'; ctx.fillRect(0,0,width,height); for(let p of particles){ p.x+=p.speedX; p.y+=p.speedY; if(p.x<0) p.x=width; if(p.x>width) p.x=0; if(p.y<0) p.y=height; if(p.y>height) p.y=0; ctx.beginPath(); ctx.arc(p.x,p.y,p.radius,0,Math.PI*2); ctx.fillStyle='#a855f7'; ctx.fill(); } for(let i=0;i<particles.length;i++){ for(let j=i+1;j<particles.length;j++){ let dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y, dist=Math.hypot(dx,dy); if(dist<150){ ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=`rgba(168,85,247,${0.3*(1-dist/150)})`; ctx.stroke(); } } } requestAnimationFrame(draw); }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas(); draw();
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < PARTICLE_COUNT; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    radius: Math.random() * 2 + 1,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5,
-                });
-            }
-        }
+        // Scroll reveal
+        const faders = document.querySelectorAll('.fade-up, .fade-left, .fade-right');
+        const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.2 });
+        faders.forEach(f => observer.observe(f));
 
-        function draw() {
-            if (!ctx) return;
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = '#0a0a0f';
-            ctx.fillRect(0, 0, width, height);
+        // Download modal
+        document.getElementById('downloadBtn').addEventListener('click', () => document.getElementById('downloadModal').style.display = 'flex');
+        window.onclick = e => { if(e.target === document.getElementById('downloadModal')) document.getElementById('downloadModal').style.display = 'none'; };
 
-            // Update and draw particles
-            for (let p of particles) {
-                p.x += p.speedX;
-                p.y += p.speedY;
-                if (p.x < 0) p.x = width;
-                if (p.x > width) p.x = 0;
-                if (p.y < 0) p.y = height;
-                if (p.y > height) p.y = 0;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#a855f7';
-                ctx.fill();
-            }
-
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < CONNECT_DISTANCE) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        const opacity = 1 - distance / CONNECT_DISTANCE;
-                        ctx.strokeStyle = `rgba(168, 85, 247, ${opacity * 0.3})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-            requestAnimationFrame(draw);
-        }
-
-        function resizeCanvas() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            initParticles();
-        }
-
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-        draw();
-
-        // --- Scroll Reveal Animation ---
-        const faders = document.querySelectorAll('.fade-up');
-        const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
-        const appearOnScroll = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, appearOptions);
-        faders.forEach(fader => appearOnScroll.observe(fader));
-
-        // --- Download Modal Logic ---
-        const downloadBtn = document.getElementById('downloadBtn');
-        const modal = document.getElementById('downloadModal');
-        if (downloadBtn && modal) {
-            downloadBtn.addEventListener('click', () => modal.style.display = 'flex');
-            window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-        }
+        // Light/Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if(currentTheme === 'light') document.body.classList.add('light');
+        themeToggle.innerHTML = currentTheme === 'light' ? '<i class="fas fa-sun"></i> <span>Light</span>' : '<i class="fas fa-moon"></i> <span>Dark</span>';
+        themeToggle.onclick = () => {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i> <span>Light</span>' : '<i class="fas fa-moon"></i> <span>Dark</span>';
+        };
     </script>
 </body>
 </html>
