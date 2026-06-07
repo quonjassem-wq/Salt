@@ -1,10 +1,13 @@
 {
+  "version": 2,
   "functions": {
     "api/*.js": {
-      "runtime": "@vercel/node@3"
+      "runtime": "nodejs18.x"
     }
   },
-  "rewrites": [
-    { "source": "/gen/hide/test", "destination": "/gen/hide/test/index.html" }
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/gen/hide/test", "dest": "/gen/hide/test/index.html" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 }
